@@ -1,0 +1,35 @@
+Users routes
+- create user
+- edit user
+- delete user
+- get user
+
+Categories
+- get user's categories - filtering option ?
+- get user's account categories
+- get user's transactions categories
+- get user's goals categories
+- add user category
+- edit user category
+- delete user category
+
+Accounts
+- get user's accounts
+- get user's concrete account
+- create user's account
+- edit user's account
+- delete user's account
+
+Goals
+- get user's goals
+- get user's concrete goal
+- create user's goal
+- edit user's goal
+- delete user's goal
+
+Budgets
+- get user's budgets
+- get user's concrete budget
+- create user's budget
+- edit user's budget
+- delete user's budget
