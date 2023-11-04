@@ -22,6 +22,25 @@ app.use(express.json())
 const usersRouter = require('./routes/users')
 app.use('/users', usersRouter)
 
+const accountsRouter = require('./routes/accounts')
+app.use('/accounts', accountsRouter)
+
+const categoriesRouter = require('./routes/categories')
+app.use('/categories', categoriesRouter)
+
+const transactionsRouter = require('./routes/transactions')
+app.use('/transactions', transactionsRouter)
+
+const goalsRouter = require('./routes/goals')
+app.use('/goals', goalsRouter)
+
+const budgetsRouter = require('./routes/budgets')
+app.use('/budgets', budgetsRouter)
+
+const trackedCategoriesRouter = require('./routes/trackedCategories')
+app.use('/trackedCategories', trackedCategoriesRouter)
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

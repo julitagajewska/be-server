@@ -5,6 +5,7 @@ const User = require('../models/user')
 // GET ALL
 router.get('/', async (req, res) => {
     try {
+        console.log('Received request')
         const users = await User.find()
         res.json(users)
     } catch (error) {
@@ -21,7 +22,7 @@ router.get('/:id', getUser, (req, res) => {
 router.post('/', async (req, res) => {
     const user = new User({
         username: req.body.username,
-        email: req.body.email
+        email: req.body.email,
     })
 
     try {
