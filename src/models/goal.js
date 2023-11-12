@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const goalSchema = new mongoose.Schema({
   user: {
@@ -13,15 +13,15 @@ const goalSchema = new mongoose.Schema({
     validate: [
       {
         validator: async function (categoryId) {
-          const category = await mongoose.model('Category').findById(categoryId);
-          return category && category.categoryType === 'GOAL';
+          const category = await mongoose.model('Category').findById(categoryId)
+          return category && category.categoryType === 'GOAL'
         },
         message: 'Category must have categoryType "GOAL"',
       },
       {
         validator: async function (categoryId) {
-          const category = await mongoose.model('Category').findById(categoryId);
-          return category && category.user.equals(this.user);
+          const category = await mongoose.model('Category').findById(categoryId)
+          return category && category.user.equals(this.user)
         },
         message: 'Category must belong to the same user as provided user ID',
       },
@@ -46,8 +46,8 @@ const goalSchema = new mongoose.Schema({
   description: {
     type: String,
   },
-});
+})
 
-const Goal = mongoose.model('Goal', goalSchema);
+const Goal = mongoose.model('Goal', goalSchema)
 
-module.exports = Goal;
+module.exports = Goal

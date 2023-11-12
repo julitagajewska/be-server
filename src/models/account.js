@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const accountSchema = new mongoose.Schema({
   user: {
@@ -10,20 +10,21 @@ const accountSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
     required: true,
-     validate: [{
-      validator: async function (categoryId) {
-        const category = await mongoose.model('Category').findById(categoryId);
-        return category && category.categoryType === 'ACCOUNT';
+    validate: [
+      {
+        validator: async function (categoryId) {
+          const category = await mongoose.model('Category').findById(categoryId)
+          return category && category.categoryType === 'ACCOUNT'
+        },
+        message: 'Category must have categoryType "ACCOUNT"',
       },
-      message: 'Category must have categoryType "ACCOUNT"',
-    },
-    {
-      validator: async function (categoryId) {
-        const category = await mongoose.model('Category').findById(categoryId);
-        return category && category.user.equals(this.user);
+      {
+        validator: async function (categoryId) {
+          const category = await mongoose.model('Category').findById(categoryId)
+          return category && category.user.equals(this.user)
+        },
+        message: 'Category must belong to the same user',
       },
-      message: 'Category must belong to the same user',
-    },
     ],
   },
   name: {
@@ -34,8 +35,8 @@ const accountSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-});
+})
 
-const Account = mongoose.model('Account', accountSchema);
+const Account = mongoose.model('Account', accountSchema)
 
-module.exports = Account;
+module.exports = Account

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const transactionSchema = new mongoose.Schema({
   user: {
@@ -8,14 +8,24 @@ const transactionSchema = new mongoose.Schema({
     validate: [
       {
         validator: async function (user) {
-          const account = await mongoose.model('Account').findById(this.accountId);
-          const category = await mongoose.model('Category').findById(this.categoryId);
+          const account = await mongoose
+            .model('Account')
+            .findById(this.accountId)
+          const category = await mongoose
+            .model('Category')
+            .findById(this.categoryId)
           console.log(user)
           console.log(account.user)
           console.log(category.user)
-          return category && account && account.user.equals(user) && category.user.equals(user);
+          return (
+            category &&
+            account &&
+            account.user.equals(user) &&
+            category.user.equals(user)
+          )
         },
-        message: 'Account and Category must belong to the same user as the provided user',
+        message:
+          'Account and Category must belong to the same user as the provided user',
       },
     ],
   },
@@ -26,11 +36,19 @@ const transactionSchema = new mongoose.Schema({
     validate: [
       {
         validator: async function (accountId) {
-          const account = await mongoose.model('Account').findById(accountId);
-          const category = await mongoose.model('Category').findById(this.categoryId);
-          return category && account && account.user.equals(this.user) && category.user.equals(this.user);
+          const account = await mongoose.model('Account').findById(accountId)
+          const category = await mongoose
+            .model('Category')
+            .findById(this.categoryId)
+          return (
+            category &&
+            account &&
+            account.user.equals(this.user) &&
+            category.user.equals(this.user)
+          )
         },
-        message: 'Account and Category must belong to the same user as the provided user',
+        message:
+          'Account and Category must belong to the same user as the provided user',
       },
     ],
   },
@@ -41,17 +59,25 @@ const transactionSchema = new mongoose.Schema({
     validate: [
       {
         validator: async function (categoryId) {
-          const account = await mongoose.model('Account').findById(this.accountId);
-          const category = await mongoose.model('Category').findById(categoryId);
-          return category && account && account.user.equals(this.user) && category.user.equals(this.user);
+          const account = await mongoose
+            .model('Account')
+            .findById(this.accountId)
+          const category = await mongoose.model('Category').findById(categoryId)
+          return (
+            category &&
+            account &&
+            account.user.equals(this.user) &&
+            category.user.equals(this.user)
+          )
         },
-        message: 'Account and Category must belong to the same user as the provided user',
+        message:
+          'Account and Category must belong to the same user as the provided user',
       },
     ],
   },
   status: {
     type: String,
-    enum: ["PENDING", "FINISHED"],
+    enum: ['PENDING', 'FINISHED'],
     required: true,
   },
   recipient: {
@@ -81,8 +107,8 @@ const transactionSchema = new mongoose.Schema({
   description: {
     type: String,
   },
-});
+})
 
-const Transaction = mongoose.model('Transaction', transactionSchema);
+const Transaction = mongoose.model('Transaction', transactionSchema)
 
-module.exports = Transaction;
+module.exports = Transaction

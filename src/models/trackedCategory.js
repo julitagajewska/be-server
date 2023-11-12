@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const trackedCategorySchema = new mongoose.Schema({
   budgetId: {
@@ -13,19 +13,19 @@ const trackedCategorySchema = new mongoose.Schema({
     validate: [
       {
         validator: async function (categoryId) {
-          const budget = await mongoose.model('Budget').findById(this.budgetId);
-          const category = await mongoose.model('Category').findById(categoryId);
-            console.log(this.categoryId)
-            console.log(budget)
-            console.log(category)
-          return budget && category && budget.user.equals(category.user);
+          const budget = await mongoose.model('Budget').findById(this.budgetId)
+          const category = await mongoose.model('Category').findById(categoryId)
+          console.log(this.categoryId)
+          console.log(budget)
+          console.log(category)
+          return budget && category && budget.user.equals(category.user)
         },
         message: 'Budget and Category must belong to the same user',
       },
       {
         validator: async function (categoryId) {
-          const category = await mongoose.model('Category').findById(categoryId);
-          return category.categoryType === 'TRANSACTION';
+          const category = await mongoose.model('Category').findById(categoryId)
+          return category.categoryType === 'TRANSACTION'
         },
         message: 'Category must have categoryType "TRANSACTION"',
       },
@@ -43,8 +43,8 @@ const trackedCategorySchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-});
+})
 
-const TrackedCategory = mongoose.model('TrackedCategory', trackedCategorySchema);
+const TrackedCategory = mongoose.model('TrackedCategory', trackedCategorySchema)
 
-module.exports = TrackedCategory;
+module.exports = TrackedCategory

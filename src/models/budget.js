@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const budgetSchema = new mongoose.Schema({
   user: {
@@ -13,8 +13,8 @@ const budgetSchema = new mongoose.Schema({
     validate: [
       {
         validator: async function (accountId) {
-          const account = await mongoose.model('Account').findById(accountId);
-          return account && account.user.equals(this.user);
+          const account = await mongoose.model('Account').findById(accountId)
+          return account && account.user.equals(this.user)
         },
         message: 'Account must belong to the same user as provided user',
       },
@@ -41,14 +41,14 @@ const budgetSchema = new mongoose.Schema({
     validate: [
       {
         validator: function (endDate) {
-          return endDate >= this.startDate;
+          return endDate >= this.startDate
         },
         message: 'End date must not be before the start date',
       },
     ],
   },
-});
+})
 
-const Budget = mongoose.model('Budget', budgetSchema);
+const Budget = mongoose.model('Budget', budgetSchema)
 
-module.exports = Budget;
+module.exports = Budget
