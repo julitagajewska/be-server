@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 // LOGIN
-router.get('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   const { email, password } = req.body
 
   const user = await User.findOne({ email: email }).lean()
@@ -24,7 +24,7 @@ router.get('/login', async (req, res) => {
       process.env.SECRET,
     )
 
-    res.status(201).json({ token: token })
+    return res.status(201).json({ token: token })
   }
 
   return res.status(400).json({ message: 'Invalid username or password' })
@@ -32,7 +32,7 @@ router.get('/login', async (req, res) => {
 
 // REGISTER
 router.post('/register', async (req, res) => {
-  const { name, surname, email, password: plainTextPassword } = req.body
+  const { username, email, password: plainTextPassword } = req.body
 
   if (!plainTextPassword || typeof plainTextPassword !== 'string')
     return res.status(400).json({ message: 'Invalid password' })
@@ -43,8 +43,7 @@ router.post('/register', async (req, res) => {
   const password = await bcrypt.hash(plainTextPassword, 10)
 
   const user = new User({
-    name: name,
-    surname: surname,
+    username: username,
     email: email,
     password: password,
   })
@@ -53,6 +52,7 @@ router.post('/register', async (req, res) => {
     const newUser = await user.save()
     res.status(201).json(newUser)
   } catch (error) {
+    console.log(error)
     res.status(400).json({ message: error.message })
   }
 })

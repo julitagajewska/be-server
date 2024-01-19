@@ -17,7 +17,8 @@ const categorySchema = new mongoose.Schema({
   },
 })
 
-categorySchema.index({ user: 1, name: 1 }, { unique: true })
+// Create a compound unique index for user, categoryType, and name
+categorySchema.index({ user: 1, categoryType: 1, name: 1 }, { unique: true })
 
 const Category = mongoose.model('Category', categorySchema)
 

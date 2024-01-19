@@ -1,9 +1,22 @@
 require('dotenv').config()
+const cors = require('cors')
 
 const express = require('express')
 const mongoose = require('mongoose')
 
 const app = express()
+app.use(
+  cors({
+    origin: [
+      'http://localhost:5173',
+      'http://localhost:5174',
+      'http://localhost:5175',
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  }),
+)
 const port = process.env.PORT || 3000
 
 mongoose.connect(process.env.DATABASE_URL, {

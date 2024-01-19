@@ -14,9 +14,6 @@ const transactionSchema = new mongoose.Schema({
           const category = await mongoose
             .model('Category')
             .findById(this.categoryId)
-          console.log(user)
-          console.log(account.user)
-          console.log(category.user)
           return (
             category &&
             account &&

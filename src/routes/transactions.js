@@ -64,7 +64,7 @@ router.post('/', async (req, res) => {
 })
 
 // EDIT
-router.patch('/:id', getTransaction, async (req, res) => {
+router.put('/:id', getTransaction, async (req, res) => {
   const {
     user,
     accountId,
@@ -87,12 +87,20 @@ router.patch('/:id', getTransaction, async (req, res) => {
     if (recipient) res.transaction.recipient = recipient
     if (title) res.transaction.title = title
     if (value) res.transaction.value = value
-    if (isExpense) res.transaction.isExpense = isExpense
-    if (isRecurring) res.transaction.isRecurring = isRecurring
+    if (isExpense !== null && isExpense !== undefined)
+      res.transaction.isExpense = isExpense
+    if (isRecurring !== null && isRecurring !== undefined)
+      res.transaction.isRecurring = isRecurring
     if (date) res.transaction.date = date
     if (description) res.transaction.description = description
 
+    console.log(`isExpense: ${isExpense} - ${res.transaction.isExpense}`)
+
     const updatedTransaction = await res.transaction.save()
+
+    console.log(req.body)
+    console.log('--------')
+    console.log(updatedTransaction)
     res.json(updatedTransaction)
   } catch (error) {
     res.status(400).json({ message: error.message })

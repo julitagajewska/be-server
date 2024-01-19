@@ -15,9 +15,6 @@ const trackedCategorySchema = new mongoose.Schema({
         validator: async function (categoryId) {
           const budget = await mongoose.model('Budget').findById(this.budgetId)
           const category = await mongoose.model('Category').findById(categoryId)
-          console.log(this.categoryId)
-          console.log(budget)
-          console.log(category)
           return budget && category && budget.user.equals(category.user)
         },
         message: 'Budget and Category must belong to the same user',

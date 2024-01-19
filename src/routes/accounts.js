@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
 })
 
 // EDIT
-router.patch('/:id', getAccount, async (req, res) => {
+router.put('/:id', getAccount, async (req, res) => {
   const { user, category, name, balance } = req.body
 
   try {

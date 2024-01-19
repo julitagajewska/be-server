@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const Category = require('../models/category')
+const Transaction = require('../models/transaction')
+const Account = require('../models/account')
+const Goal = require('../models/goal')
 
 // GET ALL
 router.get('/', async (req, res) => {
@@ -30,33 +33,43 @@ router.get('/:id', getCategory, (req, res) => {
 router.post('/', async (req, res) => {
   const { user, categoryType, name } = req.body
 
+  console.log(user, categoryType, name)
+
   try {
-    // Check if a category with the same name and user ID already exists
-    const existingCategory = await Category.findOne({ user, name })
+    // Check if a category with the same name, user ID, and category type already exists
+    const existingCategory = await Category.findOne({
+      user,
+      name,
+      categoryType,
+    })
 
     if (existingCategory) {
-      return res
-        .status(400)
-        .json({
-          message: 'Category with the same name already exists for this user.',
-        })
+      return res.status(400).json({
+        message:
+          'Category with the same name already exists for this user and category type.',
+      })
     }
 
     const category = new Category({
       user,
-      categoryType,
       name,
+      categoryType,
     })
 
     const newCategory = await category.save()
     res.status(201).json(newCategory)
   } catch (error) {
+    if (error.message.includes('duplicate key error')) {
+      return res.status(400).json({
+        message: error.message,
+      })
+    }
     res.status(400).json({ message: error.message })
   }
 })
 
 // EDIT
-router.patch('/:id', getCategory, async (req, res) => {
+router.put('/:id', getCategory, async (req, res) => {
   const { user, categoryType, name } = req.body
 
   try {
@@ -73,9 +86,33 @@ router.patch('/:id', getCategory, async (req, res) => {
 
 // DELETE
 router.delete('/:id', getCategory, async (req, res) => {
+  const categoryId = req.params.id
+
   try {
+    // Delete the category itself
     await res.category.deleteOne()
-    res.json({ message: 'Category deleted successfully' })
+
+    // Delete associated entities based on category type
+    switch (res.category.categoryType) {
+      case 'ACCOUNT':
+        // Delete all accounts with categoryId equal to the deleted category id
+        await Account.deleteMany({ category: categoryId })
+        break
+      case 'TRANSACTION':
+        // Delete all transactions with categoryId equal to the deleted category id
+        await Transaction.deleteMany({ categoryId: categoryId })
+        break
+      case 'GOAL':
+        // Delete all goals with categoryId equal to the deleted category id
+        await Goal.deleteMany({ category: categoryId })
+        break
+      default:
+        break
+    }
+
+    res.json({
+      message: 'Category and associated entities deleted successfully',
+    })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
