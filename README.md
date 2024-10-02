@@ -22,7 +22,7 @@ To install and run the server locally, follow these steps:
    ```
 7. Create .env file with a MongoDB database url (inside project directory)
    ```
-   echo 'DATABASE_URL="database url goes here"' > .env
+   echo -e 'DATABASE_URL=*database url goes here*\nPORT=8080' > .env
    ```
 9. Run the server
    ```
